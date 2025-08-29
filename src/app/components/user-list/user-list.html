@@ -1,0 +1,41 @@
+<div class="container">
+  <h1>User Management</h1>
+  
+  <div *ngIf="loading" class="loading">
+    Loading users...
+  </div>
+
+  <div *ngIf="!loading" class="table-container">
+    <div class="table-wrapper">
+      <table class="user-table">
+        <thead>
+          <tr>
+            <th *ngFor="let header of tableHeaders">
+              {{ header }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users; let i = index" 
+              class="user-row"
+              (click)="onRowClick(user, i)">
+            <td *ngFor="let header of tableHeaders" 
+                [class.editing]="isEditing(i, header)"
+                (dblclick)="startEditing(i, header)"
+                (blur)="updateValue(i, header, $event)"
+                (keydown.enter)="stopEditing()"
+                [contentEditable]="isEditing(i, header)"
+                [innerHTML]="user[header]">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="footer">
+      <p>
+        Total: {{ users.length }} users
+      </p>
+    </div>
+  </div>
+</div>

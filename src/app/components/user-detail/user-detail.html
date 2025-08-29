@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="header">
+    <button (click)="goBack()" class="back-btn">
+      ← Back to List
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    Loading user details...
+  </div>
+  <div *ngIf="error && !loading" class="error">
+    <h2>User Not Found</h2>
+    <p>The user with ID "{{ userId }}" could not be found.</p>
+    <button (click)="goBack()" class="btn">
+      Return to User List
+    </button>
+  </div>
+
+  <div *ngIf="user && !loading && !error" class="user-card">
+    <div class="user-header">
+      <h1>{{ user.name || 'User Details' }}</h1>
+      <p>ID: {{ user.id }}</p>
+    </div>
+    
+    <div class="user-content">
+      <div class="user-grid">
+        <div *ngFor="let key of getUserKeys()" class="user-field">
+          <strong>{{ key }}:</strong>
+          <span *ngIf="user[key] !== null && user[key] !== undefined && user[key] !== ''; else emptyValue">
+            <span *ngIf="key === 'bio'" [innerHTML]="user[key]"></span>
+            <span *ngIf="key !== 'bio'">{{ user[key] }}</span>
+          </span>
+          <ng-template #emptyValue>
+            <span class="empty">No data</span>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
